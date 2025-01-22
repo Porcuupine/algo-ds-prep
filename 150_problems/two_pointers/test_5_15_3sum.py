@@ -27,39 +27,32 @@ class Test3Sum:
     -105 <= nums[i] <= 105"""
 
     def three_sum(self, nums: list[int]) -> list[list[int]]:
-        # return [[-1, -1, 2], [-1, 0, 1]]
-        # sort the array to make it easier to avoid duplicates and two pointers
-        nums.sort()
         result = []
+        nums.sort()
         for i in range(len(nums) - 2):
-            # skip duplicates elements for the first number
+            # skip duplicates elements for the first number, because i != j, i != k, and j != k:
             if i > 0 and nums[i] == nums[i - 1]:
                 continue
-
             # use two pointers to find the other two numbers
             left, right = i + 1, len(nums) - 1
             while left < right:
                 total = nums[i] + nums[left] + nums[right]
-
-                if total == 0:
+                if total < 0:
+                    left += 1
+                elif total > 0:
+                    right -= 1
+                else:
                     result.append([nums[i], nums[left], nums[right]])
-
+                    # skip duplicates elements because i != j, i != k, and j != k:
                     while left < right and nums[left] == nums[left + 1]:
                         left += 1
                     while left < right and nums[right] == nums[right - 1]:
                         right -= 1
+
                     # move pointers after finding a valid triplet
                     left += 1
                     right -= 1
 
-                elif total < 0:
-                    # move the left pointer to increase the sum
-                    left += 1
-                else:
-                    # move the right pointer to decrease the sum
-                    right -= 1
-
-        # return the result
         return result
 
     @pytest.mark.parametrize(
