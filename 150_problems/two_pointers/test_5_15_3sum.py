@@ -30,7 +30,7 @@ class Test3Sum:
         result = []
         nums.sort()
         for i in range(len(nums) - 2):
-            # skip an dublicate element to prevent duplicates in triples:
+            # skip a duplicate element to prevent duplicates in triples:
             if i > 0 and nums[i] == nums[i - 1]:
                 continue
             # use two pointers to find the other two numbers
@@ -44,7 +44,7 @@ class Test3Sum:
                     right -= 1
                 else:
                     result.append([nums[i], nums[left], nums[right]])
-                    #
+                    # Skip a duplicate element to prevent duplicates:
                     while left < right and nums[left] == nums[left + 1]:
                         left += 1
                     while left < right and nums[right] == nums[right - 1]:
