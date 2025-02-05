@@ -33,7 +33,7 @@ class TestMinimumSizeSubarraySum:
                 l    r          = 7
                 l       r       = 10
                    l    r       = 9
-                      l r       = 7
+                      l  r       = 7
 
         """
         curr_sum = 0
