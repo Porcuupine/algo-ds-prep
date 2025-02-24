@@ -49,8 +49,8 @@ class TestDetermineIfTwoStringsAreClose:
     @pytest.mark.parametrize(
         'word1, word2, expected', [
             ('abc', 'bca', True),
-            # ('a', 'aa', False),
-            # ('cabbba', 'abbccc', True),
+            ('a', 'aa', False),
+            ('cabbba', 'abbccc', True),
         ]
     )
     def test_determine_if_two_strings_are_close(self, word1, word2, expected):
