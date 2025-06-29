@@ -35,59 +35,59 @@ class TestMergeSortedArray:
     """
 
     def merge_sorted_array(self, nums1: list[int], m: int, nums2: list[int], n: int) -> None:
-        # if not n:
-        #     return
-        # if not m:
-        #     for i in range(len(nums1)):
-        #         nums1[i] = nums2[i]
-        #     return
-        #
-        # index1 = index2 = 0
-        # while index1 < len(nums1):
-        #     if index1 >= m:
-        #         nums1[index1] = nums2[index2]
-        #         index1 += 1
-        #         index2 += 1
-        #
-        #     elif nums1[index1] <= nums2[index2]:
-        #         index1 += 1
-        #     else:
-        #         nums1[index1], nums2[index2] = nums2[index2], nums1[index1]
-        #         index1 += 1
-        #
-        #
-        #
-        # return None
-        # case 2
         if not n:
             return
-        # case 3
         if not m:
-            # copy each num from nums2 to nums1
             for i in range(len(nums1)):
                 nums1[i] = nums2[i]
             return
 
-        # case 1
-        index1, index2 = 0, 0
-
+        index1 = index2 = 0
         while index1 < len(nums1):
-            current_element1, current_element2 = nums1[index1], nums2[index2]
-            # add remaining from nums2 if nums1 is at the end
             if index1 >= m:
-                nums1[index1] = current_element2
+                nums1[index1] = nums2[index2]
                 index1 += 1
                 index2 += 1
-            elif current_element1 <= current_element2:  # element1 is lesser
+
+            elif nums1[index1] <= nums2[index2]:
                 index1 += 1
-            else:  # if element2 is lesser
-                # swap element1 with element2
-                nums1[index1] = current_element2
-                nums2[index2] = current_element1
+            else:
+                nums1[index1], nums2[index2] = nums2[index2], nums1[index1]
                 index1 += 1
 
+
+
+        return None
+        # # case 2
+        # if not n:
+        #     return
+        # # case 3
+        # if not m:
+        #     # copy each num from nums2 to nums1
+        #     for i in range(len(nums1)):
+        #         nums1[i] = nums2[i]
+        #     return
+        #
+        # # case 1
+        # index1, index2 = 0, 0
+        #
+        # while index1 < len(nums1):
+        #     current_element1, current_element2 = nums1[index1], nums2[index2]
+        #     # add remaining from nums2 if nums1 is at the end
+        #     if index1 >= m:
+        #         nums1[index1] = current_element2
+        #         index1 += 1
+        #         index2 += 1
+        #     elif current_element1 <= current_element2:  # element1 is lesser
+        #         index1 += 1
+        #     else:  # if element2 is lesser
+        #         # swap element1 with element2
+        #         nums1[index1] = current_element2
+        #         nums2[index2] = current_element1
+        #         index1 += 1
+
     @pytest.mark.parametrize(
-        'nums1, nums2, m, n, expected', [
+        'nums1, m, nums2, n, expected', [
             ([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3, [1, 2, 2, 3, 5, 6]),
         ]
     )
