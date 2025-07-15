@@ -38,6 +38,27 @@ class TestProductOfArrayExceptSelf:
 
         return ans
 
+    def product_of_array_except_self_2(self, nums: list[int]):
+        n = len(nums)
+        ans_1 = [1] * n
+        ans_2 = [1] * n
+
+        leftProduct = 1
+        for i in range(n):
+            ans_1[i] = leftProduct
+            leftProduct *= nums[i]
+
+        rightProduct = 1
+        for i in range(n - 1, -1, -1):
+            ans_2[i] = rightProduct
+            rightProduct *= nums[i]
+
+        for i in range(n):
+            ans_1[i] *= ans_2[i]
+
+        return ans_1
+
+
     @pytest.mark.parametrize(
         'nums, expected', [
             ([1, 2, 3, 4], [24, 12, 8, 6]),
@@ -45,4 +66,4 @@ class TestProductOfArrayExceptSelf:
         ]
     )
     def test_product_of_array_except_self(self, nums, expected):
-        assert self.product_of_array_except_self(nums) == expected
+        assert self.product_of_array_except_self_2(nums) == expected
