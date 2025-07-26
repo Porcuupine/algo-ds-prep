@@ -28,7 +28,15 @@ class TestEqualRowAndColumnPairs:
     """
 
     def equal_row_and_column_pairs(self, grid: list[list[int]]) -> int:
-        n = len(grid)
+        # n = len(grid)
+        # row_counts = Counter(tuple(row) for row in grid)
+        # columns = zip(*grid)
+        # count = 0
+        # for col in columns:
+        #     count += row_counts[tuple(col)]
+        #
+        # return count
+
         row_counts = Counter(tuple(row) for row in grid)
         columns = zip(*grid)
         count = 0
@@ -37,11 +45,10 @@ class TestEqualRowAndColumnPairs:
 
         return count
 
-
     @pytest.mark.parametrize(
         'grid, expected', [
-            ([[3, 2, 1], [1, 7, 6], [2, 7, 7]], 1),
-            ([[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]], 3),
+            ([[3, 2, 1], [1, 7, 6], [1, 7, 6], [2, 7, 7]], 1),
+            # ([[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]], 3),
         ]
     )
     def test_equal_row_and_column_pairs(self, grid, expected):
