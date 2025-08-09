@@ -34,15 +34,15 @@ class TestContainerWithTheMostWater:
         """
         currArea = maxArea = 0
         left, right = 0, len(height) - 1
+
         while left < right:
             currArea = min(height[left], height[right]) * (right - left)
-            if currArea > maxArea:
-                maxArea = currArea
+            maxArea = max(maxArea, currArea)
 
-            if height[left] > height[right]:
-                right -= 1
-            else:
+            if height[left] < height[right]:
                 left += 1
+            else:
+                right -= 1
 
         return maxArea
 

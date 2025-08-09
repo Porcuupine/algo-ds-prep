@@ -45,6 +45,7 @@ class TestMaxNumberOfKSumPairs:
         nums.sort()
         left, right = 0, len(nums) - 1
         count = 0
+
         while left < right:
             sum = nums[left] + nums[right]
             if sum > k:
@@ -52,9 +53,9 @@ class TestMaxNumberOfKSumPairs:
             elif sum < k:
                 left += 1
             else:
+                count += 1
                 left += 1
                 right -= 1
-                count += 1
 
         return count
 
