@@ -34,23 +34,16 @@ class TestRemovingStarsFromAString:
     """
 
     def removing_stars_from_a_string(self, s: str) -> str:
-        stack = []
+        stack: list = []
 
         for char in s:
-            if char == '*':
+            if char == "*":
                 if stack:
-                    stack.pop()  # Remove the closest non-star character
+                    stack.pop()
             else:
-                stack.append(char)  # Add the character to the stack
+                stack.append(char)
 
-        return ''.join(stack)
-
-        # Example usage:
-        s1 = "leet**cod*e"
-        print(removeStars(s1))  # Output: "lecoe"
-
-        s2 = "erase*****"
-        print(removeStars(s2))  # Output: ""
+        return "".join(stack)
 
     @pytest.mark.parametrize(
         's, expected', [
