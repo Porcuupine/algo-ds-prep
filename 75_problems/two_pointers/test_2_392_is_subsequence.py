@@ -35,7 +35,7 @@ class TestIsSubsequence:
                 sp += 1
             tp += 1
 
-        return len(s) == sp
+        return sp == len(s)
 
     @pytest.mark.parametrize(
         "s, t, expected",

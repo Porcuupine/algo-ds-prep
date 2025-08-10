@@ -27,8 +27,7 @@ class TestMoveZeroes:
              s    f   change
         [1,3,12,0,0]
         """
-        slow = 0
-        fast = 0
+        slow = fast = 0
         while fast < len(nums):
             if nums[fast] != 0 and nums[slow] == 0:
                 nums[fast], nums[slow] = nums[slow], nums[fast]
