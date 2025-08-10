@@ -25,29 +25,26 @@ class TestDecodeString:
 
     def decode_string(self, s: str) -> str:
         stack: list = []
-        chars = "abc"
-        digits = "123"
+        current_num = 0
+        current_str = ""
 
-        s = s.replace("]", "")
-        data = s.split("[")
+        for char in s:
+            if char.isdigit():
+                current_num = current_num * 10 + int(char)
 
-        count = 1
-
-        for char in data:
-            if char in chars:
-                for i in range(count):
-                    stack.append(char)
-            elif char in digits:
-                count = int(char)
+            elif char == "[":
+                stack.append(current_str)
+                stack.append(current_num)
+                current_str = ""
+                current_num = 0
+            elif char == "]":
+                num = stack.pop()
+                prev_str = stack.pop()
+                current_str = prev_str + current_str * num
             else:
-                for c in char:
-                    if c in chars:
-                        for i in range(count):
-                            stack.append(c)
-                    elif c in digits:
-                        count = int(c)
+                current_str += char
 
-        return "".join(stack)
+        return current_str
 
     @pytest.mark.parametrize("s, expected", [
         ("3[a]2[bc]", "aaabcbc"),
