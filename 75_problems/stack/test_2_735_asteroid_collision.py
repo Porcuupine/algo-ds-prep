@@ -31,14 +31,14 @@ class TestAsteroidCollision:
         stack: list = []
 
         for num in asteroids:
-            while stack and num < 0 and stack[-1] > 0:
-                # pop()
-                if num == stack[-1]:
-                    stack.pop()
-                elif stack[-1] < -num:
+            while stack and num < 0 < stack[-1]:
+                if stack[-1] < -num:
                     stack.pop()
                     continue
+                elif stack[-1] == -num:
+                    stack.pop()
                 break
+
             else:
                 stack.append(num)
 
@@ -46,12 +46,8 @@ class TestAsteroidCollision:
 
     @pytest.mark.parametrize("asteroids, expected", [
         ([5, 10, -5], [5, 10]),
-        # ([-3, -2, 5], [0]),
-        # ([10, -5], [10]),
-        # ([-10, 5], [-10]),
-        # ([5, -10], [-10]),
-        # ([10, 2, -5], [10]),
-        # ([-5, -6], []),
+        ([8,-8], []),
+        ([10, 2, -5], [10]),
     ])
     def test_asteroid_collision(self, asteroids, expected):
         assert self.asteroid_collision(asteroids) == expected
