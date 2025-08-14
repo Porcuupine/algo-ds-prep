@@ -37,9 +37,8 @@ class TestRemovingStarsFromAString:
         stack: list = []
 
         for char in s:
-            if char == "*":
-                if stack:
-                    stack.pop()
+            if stack and char == "*":
+                stack.pop()
             else:
                 stack.append(char)
 
