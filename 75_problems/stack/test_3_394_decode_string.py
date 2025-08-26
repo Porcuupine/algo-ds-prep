@@ -25,6 +25,7 @@ class TestDecodeString:
 
     def decode_string(self, s: str) -> str:
         stack: list = []
+
         current_num = 0
         current_str = ""
 
@@ -37,6 +38,7 @@ class TestDecodeString:
                 stack.append(current_num)
                 current_str = ""
                 current_num = 0
+
             elif char == "]":
                 num = stack.pop()
                 prev_str = stack.pop()
@@ -48,6 +50,8 @@ class TestDecodeString:
 
     @pytest.mark.parametrize("s, expected", [
         ("3[a]2[bc]", "aaabcbc"),
+        ("3[a2[c]]", "accaccacc"),
+        ("2[abc]3[cd]ef", "abcabccdcdcdef"),
     ])
     def test_decode_string(self, s: str, expected: str):
         assert self.decode_string(s) == expected
