@@ -30,16 +30,18 @@ class TestAsteroidCollision:
     def asteroid_collision(self, asteroids: list[int]) -> list[int]:
         stack: list = []
 
-        for num in asteroids:
-            while stack and num < 0 and 0 < stack[-1]:
-                if stack[-1] < -num:
+        for asteroid in asteroids:
+            while stack and asteroid < 0 and stack[-1] > 0:
+                if stack[-1] < -asteroid:
                     stack.pop()
                     continue
-                elif stack[-1] == -num:
+                elif stack[-1] == -asteroid:
                     stack.pop()
+
                 break
             else:
-                stack.append(num)
+                stack.append(asteroid)
+
         return stack
 
     @pytest.mark.parametrize("asteroids, expected", [
