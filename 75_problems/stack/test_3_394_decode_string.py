@@ -24,8 +24,8 @@ class TestDecodeString:
     """
 
     def decode_string(self, s: str) -> str:
-        stack: list = []
 
+        stack: list = []
         current_num = 0
         current_str = ""
 
@@ -34,11 +34,11 @@ class TestDecodeString:
                 current_num = current_num * 10 + int(char)
 
             elif char == "[":
+
                 stack.append(current_str)
                 stack.append(current_num)
-                current_str = ""
                 current_num = 0
-
+                current_str = ""
             elif char == "]":
                 num = stack.pop()
                 prev_str = stack.pop()
