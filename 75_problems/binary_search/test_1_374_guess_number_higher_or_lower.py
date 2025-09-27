@@ -1,6 +1,5 @@
 import pytest
 
-
 # For testing, we simulate the guess API
 class GuessAPI:
     def __init__(self, pick):
