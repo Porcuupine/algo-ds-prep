@@ -51,3 +51,5 @@ class TestPairsOfSpells:
     ])
     def test_pairs_of_speels(self, spells, potions, success, expected):
         assert self.pairs_of_speels(spells, potions, success) == expected
+
+
