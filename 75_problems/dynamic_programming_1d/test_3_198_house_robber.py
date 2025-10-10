@@ -28,23 +28,25 @@ class TestHouseRobber:
         if len(nums) == 1:
             return nums[0]
 
-        # n = len(nums)
-        # dp = [0] * n
-        # dp[0], dp[1] = nums[0], max(nums[0], nums[1])
-        #
-        # for i in range(2, n):
-        #     dp[i] = nums[i] + max(dp[i - 1], dp[i - 2])
-        #
-        # return dp[-1]
+        # dp[i] = max money that can be robbed up to house i
+        dp = [0] * len(nums)
+        dp[0] = nums[0]
+        dp[1] = max(nums[0], nums[1])
 
-        prev2, prev1 = 0, 0  # dp[i-2], dp[i-1]
-        for n in nums:
-            prev2, prev1 = prev1, max(prev1, prev2 + n)
-        return prev1
+        for i in range(2, len(nums)):
+            # Either skip current house or rob it + value two houses back
+            dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])
 
-    @pytest.mark.parametrize("cost, expected", [
+        return dp[-1]
+
+        # prev2, prev1 = 0, 0  # dp[i-2], dp[i-1]
+        # for n in nums:
+        #     prev2, prev1 = prev1, max(prev1, prev2 + n)
+        # return prev1
+
+    @pytest.mark.parametrize("nums, expected", [
         ([1, 2, 3, 1], 4),
-        ( [2,7,9,3,1], 12),
+        ([2, 7, 9, 3, 1], 12),
     ])
     def test_climbing_stairs_cost(self, nums, expected):
         assert self.house_robber(nums) == expected
