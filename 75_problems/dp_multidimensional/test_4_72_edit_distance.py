@@ -47,9 +47,9 @@ class TestEditDistance:
                     dp[i][j] = dp[i - 1][j - 1]
                 else:
                     dp[i][j] = 1 + min(
-                        dp[i - 1][j],
-                        dp[i][j - 1],
-                        dp[i - 1][j - 1]
+                        dp[i - 1][j],       # delete
+                        dp[i][j - 1],       # insert
+                        dp[i - 1][j - 1]    # replace
                     )
         return dp[m][n]
 
