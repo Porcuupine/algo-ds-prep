@@ -1,6 +1,12 @@
 import pytest
 
 
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.suggestions = []  # store up to 3 smallest words
+
+
 class TestSearchSystem:
     """
     You are given an array of strings products and a string searchWord.
@@ -28,14 +34,42 @@ class TestSearchSystem:
     """
 
     def search_suggestion_system(self, products: list[str], searchWord: str) -> list[list[str]]:
-        products.sort()  # sort lexicographically
+        # the simplest O(n^2) version:
+        # products.sort()  # sort lexicographically
+        # res = []
+        # prefix = ""
+        # for ch in searchWord:
+        #     prefix += ch
+        #     # find all starting with prefix
+        #     suggestions = [p for p in products if p.startswith(prefix)]
+        #     res.append(suggestions[:3])
+        # return res
+
+        # simple trie variant
+        products.sort()  # ensures lexicographic order
+        root = TrieNode()
+
+        # Build the Trie
+        for word in products:
+            node = root
+            for ch in word:
+                if ch not in node.children:
+                    node.children[ch] = TrieNode()
+                node = node.children[ch]
+                # only keep 3 smallest
+                if len(node.suggestions) < 3:
+                    node.suggestions.append(word)
+
+        # Search suggestions for each prefix
         res = []
-        prefix = ""
+        node = root
         for ch in searchWord:
-            prefix += ch
-            # find all starting with prefix
-            suggestions = [p for p in products if p.startswith(prefix)]
-            res.append(suggestions[:3])
+            if node and ch in node.children:
+                node = node.children[ch]
+                res.append(node.suggestions)
+            else:
+                node = None
+                res.append([])  # prefix not found
         return res
 
     @pytest.mark.parametrize("products, searchWord, expected", [
