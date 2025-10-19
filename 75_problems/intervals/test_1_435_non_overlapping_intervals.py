@@ -25,32 +25,52 @@ class TestNonOverlappingIntervals:
 
     def non_overlapping_intervals(self, intervals: list[list[int]]) -> int:
 
-        # bruteforce solution. Time: O(n²) — because of repeated popping and pair comparisons.
-        # Space: O(1) (in-place).
+        # # bruteforce solution. Time: O(n²) — because of repeated popping and pair comparisons.
+        # # Space: O(1) (in-place).
+        # if not intervals:
+        #     return 0
+        #
+        #     # Sort by start time first
+        # intervals.sort(key=lambda x: x[0])
+        # removed = 0
+        #
+        # i = 0
+        # while i < len(intervals) - 1:
+        #     start1, end1 = intervals[i]
+        #     start2, end2 = intervals[i + 1]
+        #
+        #     # If they overlap:
+        #     if start2 < end1:
+        #         removed += 1
+        #         # Remove the one with the larger end
+        #         if end1 > end2:
+        #             intervals.pop(i)
+        #         else:
+        #             intervals.pop(i + 1)
+        #     else:
+        #         i += 1  # move to next pair
+        #
+        # return removed
+
+        # O(n log(n)) - sorting and O(1) - uses only few variables
         if not intervals:
             return 0
 
-            # Sort by start time first
-        intervals.sort(key=lambda x: x[0])
-        removed = 0
+        # sort by the end:
+        intervals.sort(key=lambda x: x[1])
 
-        i = 0
-        while i < len(intervals) - 1:
-            start1, end1 = intervals[i]
-            start2, end2 = intervals[i + 1]
+        # initialize:
+        count = 0
+        prev_end = intervals[0][1]
 
-            # If they overlap:
-            if start2 < end1:
-                removed += 1
-                # Remove the one with the larger end
-                if end1 > end2:
-                    intervals.pop(i)
-                else:
-                    intervals.pop(i + 1)
+        # iterate through intervals
+        for start, end in intervals[1:]:
+            if start < prev_end:
+                count += 1  # remove this one
             else:
-                i += 1  # move to next pair
+                prev_end = end  # update end if no overlap
 
-        return removed
+        return count
 
     @pytest.mark.parametrize("intervals, expected", [
         ([[1, 2], [2, 3], [3, 4], [1, 3]], 1),
