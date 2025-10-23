@@ -20,13 +20,27 @@ class TestDeilyTemperatures:
     """
 
     def daily_temperatures(self, temperatures: list[int]) -> list[int]:
-        n = len(temperatures)
-        res = [0] * n
-        for i in range(n):
-            for j in range(i + 1, n):
-                if temperatures[j] > temperatures[i]:
-                    res[i] = j - i
-                    break
+        # bruteforce:
+        # n = len(temperatures)
+        # res = [0] * n
+        # for i in range(n):
+        #     for j in range(i + 1, n):
+        #         if temperatures[j] > temperatures[i]:
+        #             res[i] = j - i
+        #             break
+        # return res
+
+        # stack:
+        stack = []
+        res = [0] * len(temperatures)
+
+        for i, temp in enumerate(temperatures):
+            # check if the current temp is warmer than previous ones
+            while stack and temperatures[stack[-1]] < temp:
+                prev_day = stack.pop()
+                res[prev_day] = i - prev_day
+            stack.append(i)
+
         return res
 
     @pytest.mark.parametrize("temperatures, expected", [
