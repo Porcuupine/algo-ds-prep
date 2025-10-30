@@ -25,3 +25,47 @@ class TestBasicCalculator:
     Every number and running calculation will fit in a signed 32-bit integer.
     """
 
+    def calculate(self, s: str) -> int:
+        stack = []
+        current_number = 0
+        current_result = 0
+        sign = 1  # 1 means '+', -1 means '-'
+
+        for char in s:
+            if char.isdigit():
+                current_number = current_number * 10 + int(char)
+
+            elif char in "+-":
+                current_result += sign * current_number
+                current_number = 0
+                sign = 1 if char == "+" else -1
+
+            elif char == "(":
+                # Push result and sign before parenthesis
+                stack.append(current_result)
+                stack.append(sign)
+                current_result = 0
+                sign = 1
+
+            elif char == ")":
+                current_result += sign * current_number
+                current_number = 0
+                current_result *= stack.pop()  # multiply by the sign before "("
+                current_result += stack.pop()  # add the result before "("
+
+            # ignore spaces
+        return current_result + sign * current_number
+
+@pytest.mark.parametrize(
+    "expression, expected",
+    [
+        ("1 + 1", 2),
+        (" 2-1 + 2 ", 3),
+        ("(1+(4+5+2)-3)+(6+8)", 23),
+        ("(5-(1+2))", 2),
+        ("(7)-(0)+(4)", 11),
+    ],
+)
+def test_calculate(expression, expected):
+    s = TestBasicCalculator()
+    assert s.calculate(expression) == expected
