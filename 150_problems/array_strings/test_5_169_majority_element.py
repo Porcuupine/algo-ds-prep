@@ -1,3 +1,5 @@
+from collections import Counter
+
 import pytest
 
 
@@ -17,14 +19,31 @@ class TestMajorityElement:
     -109 <= nums[i] <= 109
     Follow-up: Could you solve the problem in linear time and in O(1) space?
     """
+
     def majority_element(self, nums: list[int]) -> int:
-        for i in range(len(nums)):
-            if
+        # # hashmap o(n):
+        # counts = Counter(nums)
+        # for num, count in counts.items():
+        #     if count > len(nums) // 2:
+        #         return num
+
+        # Boyer - Moore Voting Algorithm O(n) time ans O(1) space
+        candidate = nums[0]
+        count = 1
+
+        for num in nums[1:]:
+            if count == 0:
+                candidate = num
+                count = 1
+            elif num == candidate:
+                count += 1
+            else:
+                count -= 1
+        return candidate
 
     @pytest.mark.parametrize("nums, expected", [
         ([3, 2, 3], 3),
-        ([2,2,1,1,1,2,2], 2),
+        ([2, 2, 1, 1, 1, 2, 2], 2),
     ])
     def test_majority_element(self, nums, expected):
         assert self.majority_element(nums) == expected
-
