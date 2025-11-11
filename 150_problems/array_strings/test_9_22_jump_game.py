@@ -31,7 +31,7 @@ class TestJumpGame:
         #
         # return False
 
-        # greedy O(n) time and O(1) space:
+        # greedy solution O(n) time and O(1) space:
         max_reach = 0
         for i, jump in enumerate(nums):
             if i > max_reach:
