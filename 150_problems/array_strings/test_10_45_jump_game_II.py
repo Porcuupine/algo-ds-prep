@@ -22,14 +22,7 @@ class TestJumpGame:
     """
 
     def can_jump(self, nums: list[int]) -> int:
-        # reached_p = 0
-        # count = 0
-        #
-        # for i, jump in enumerate(nums[:-1]):
-        #     if reached_p < i + jump:
-        #         count += 1
-        #         reached_p = i + jump
-        # return count
+
         jumps = 0
         end = 0
         farthest = 0
