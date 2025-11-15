@@ -20,12 +20,21 @@ class TestHIndex:
     """
 
     def h_index(self, citations: list[int]):
-        citations.sort(reverse=True)
-        h = 0
-        for i, c in enumerate(citations):
-            if c >= i + 1:
-                h = i + 1
-        return h
+
+        n = len(citations)
+        count = [0] * (n + 1)
+
+        for c in citations:
+            if c >= n:
+                count[n] += 1  # cap large values
+            else:
+                count[c] += 1
+
+        total = 0
+        for h in range(n, -1, -1):
+            total += count[h]
+            if total >= h:
+                return h
 
     @pytest.mark.parametrize("citations, expected", [
         ([3, 0, 6, 1, 5], 3),
