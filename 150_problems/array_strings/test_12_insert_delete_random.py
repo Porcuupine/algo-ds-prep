@@ -1,10 +1,11 @@
 import random
+import pytest
 
 
-class RandomizedSet:
+class TestRandomizedSet:
     def __init__(self):
-        self.arr = []  # stores elements
-        self.pos = {}  # val -> index in arr
+        self.arr = []
+        self.pos = {}
 
     def insert(self, val: int) -> bool:
         if val in self.pos:
@@ -17,14 +18,14 @@ class RandomizedSet:
         if val not in self.pos:
             return False
 
-        idx = self.pos[val]  # index of element to delete
-        last = self.arr[-1]  # last element
+        idx = self.pos[val]
+        last = self.arr[-1]
 
-        # move last element to idx
+        # Move last element into the spot of the removed element
         self.arr[idx] = last
         self.pos[last] = idx
 
-        # remove last element
+        # Remove the last element
         self.arr.pop()
         del self.pos[val]
 
@@ -32,3 +33,36 @@ class RandomizedSet:
 
     def getRandom(self) -> int:
         return random.choice(self.arr)
+
+
+@pytest.mark.parametrize("ops, args, expected", [
+    (
+        [
+            "RandomizedSet", "insert", "remove", "insert", "getRandom", "remove", "insert", "getRandom"
+        ],
+        [
+            [], [1], [2], [2], [], [1], [2], []
+        ],
+        [
+            None, True, False, True, "ANY", True, False, "ANY"
+        ]
+    ),
+])
+def test_randomized_set(ops, args, expected):
+    obj = None
+    random.seed(0)
+
+    for op, arg, exp in zip(ops, args, expected):
+        if op == "RandomizedSet":
+            obj = TestRandomizedSet()
+            continue
+
+        if op == "insert":
+            assert obj.insert(arg[0]) == exp
+
+        elif op == "remove":
+            assert obj.remove(arg[0]) == exp
+
+        elif op == "getRandom":
+            result = obj.getRandom()
+            assert result in obj.arr  # cannot check exact number because it's random
