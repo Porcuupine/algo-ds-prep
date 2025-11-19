@@ -18,10 +18,25 @@ class TestProductOfArray:
     The input is generated such that answer[i] is guaranteed to fit in a 32-bit integer.
     Follow up: Can you solve the problem in O(1) extra space complexity? (The output array does not count as extra space for space complexity analysis.)
     """
+
     def product_array(self, nums):
         n = len(nums)
+        res = [1] * n
         prefix = 1
-        res = [0] * n
         for i in range(n):
-            prefix *= nums[i]
             res[i] = prefix
+            prefix *= nums[i]
+
+        postfix = 1
+        for i in range(n - 1, -1, -1):
+            res[i] *= postfix
+            postfix *= nums[i]
+
+        return res
+
+    @pytest.mark.parametrize("nums, expected", [
+        ([1, 2, 3, 4], [24, 12, 8, 6]),
+        ([-1, 1, 0, -3, 3], [0, 0, 9, 0, 0]),
+    ])
+    def test_product_array(self, nums, expected):
+        assert self.product_array(nums) == expected
