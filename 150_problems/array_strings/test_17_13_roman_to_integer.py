@@ -40,13 +40,20 @@ class TestRomanToInteger:
         symb = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
         sum = 0
 
-        for i in range(len(s)):
-            if i + 1 < len(s) and symb[s[i]] < symb[s[i + 1]]:
-                sum -= symb[s[i]]
-            else:
-                sum += symb[s[i]]
+        # for i in range(len(s)):
+        #     if i + 1 < len(s) and symb[s[i]] < symb[s[i + 1]]:
+        #         sum -= symb[s[i]]
+        #     else:
+        #         sum += symb[s[i]]
+        #
+        # return sum
 
-        return sum
+        total = prev = 0
+        for c in reversed(s):
+            v = symb[c]
+            total += -v if v < prev else v
+            prev = v
+        return total
 
     @pytest.mark.parametrize("s, expected", [
         ("III", 3),
