@@ -24,7 +24,7 @@ class TestLenghtOfLastWord:
     """
 
     def length_of_word(self, s: str) -> int:
-        return len(s.split()[-1])
+        return len(s.split()[-1])touch test
         # i = len(s) - 1
         #
         # # trim from right side
