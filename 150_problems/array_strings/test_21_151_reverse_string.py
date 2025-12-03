@@ -1,62 +1,38 @@
 import pytest
 
 
-class TestReverseWordsInAString:
-    """151. Reverse Words in a String
+class TestReverseString:
+    """
     Given an input string s, reverse the order of the words.
     A word is defined as a sequence of non-space characters. The words in s will be separated by at least one space.
     Return a string of the words in reverse order concatenated by a single space.
     Note that s may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.
-
     Example 1:
     Input: s = "the sky is blue"
     Output: "blue is sky the"
-
     Example 2:
     Input: s = "  hello world  "
     Output: "world hello"
     Explanation: Your reversed string should not contain leading or trailing spaces.
-
     Example 3:
     Input: s = "a good   example"
     Output: "example good a"
     Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
-
     Constraints:
     1 <= s.length <= 104
     s contains English letters (upper-case and lower-case), digits, and spaces ' '.
     There is at least one word in s.
+    Follow-up: If the string data type is mutable in your language, can you solve it in-place with O(1) extra space?
+    """
 
-    Follow-up: If the string data type is mutable in your language, can you solve it in-place with O(1) extra space?"""
+    def reverse_string(self, s: str) -> str:
+        reversed_arr = reversed(s.split())
+        return " ".join(reversed_arr)
 
-    def reverse_words_in_a_string(self, s: str) -> str:
-        # words = s.split()
-        # reversed_words = words[::-1]
-        # return " ".join(reversed_words)
-        res = []
-        i = len(s) - 1
-        while i >= 0:
-            # skip spaces:
-            while i >= 0 and s[i] == " ":
-                i -= 1
-            if i < 0:
-                break
-
-            # find word end
-            j = i
-            while j >= 0 and s[j] != " ":
-                j -= 1
-
-            res.append(s[j + 1: i + 1])
-            i = j - 1
-
-        return " ".join(res)
-
-    @pytest.mark.parametrize(
-        's, expected', [
-            ('the sky is blue', 'blue is sky the'),
-            ('  hello world   ', 'world hello'),
-        ]
-    )
-    def test_reverse_words_in_a_string(self, s, expected):
-        assert self.reverse_words_in_a_string(s) == expected
+    @pytest.mark.parametrize("s, expected", [
+        ("the sky is blue", "blue is sky the"),
+        ("  hello world  ", "world hello"),
+        ("a good   example", "example good a")
+    ])
+    def test_reverse_string(self, s, expected):
+        assert self.reverse_string(s) == expected
