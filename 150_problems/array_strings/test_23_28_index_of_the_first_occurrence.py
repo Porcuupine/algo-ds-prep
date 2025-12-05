@@ -19,6 +19,7 @@ class TestIndexOfTheFirstOccurrence:
     """
 
     def index_first_occurrence(self, haystack: str, needle: str) -> int:
+        # brute force O(n * m) time and O(1) space
         # n, m = len(haystack), len(needle)
         #
         # if m == 0:
