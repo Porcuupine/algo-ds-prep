@@ -36,6 +36,19 @@ class TestMinimumSizeSubarraySum:
                       l  r       = 7
 
         """
+        # # bruteforce O(n^2) time and O(1) space:
+        # n = len(nums)
+        # min_length = float('inf')
+        # for i in range(n):
+        #     curr_sum = 0
+        #     for j in range(i, n):
+        #         curr_sum += nums[j]
+        #         if curr_sum >= target:
+        #             min_length = min(min_length, j - i + 1)
+        #
+        # return min_length if min_length != float('inf') else 0
+
+        # sliding window O(n) time and O(1) space:
         curr_sum = 0
         left = 0
         min_len = float('inf')
