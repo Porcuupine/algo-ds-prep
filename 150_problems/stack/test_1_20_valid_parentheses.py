@@ -43,7 +43,7 @@ class TestValidParentheses:
             else:
                 return False
 
-        return not stack
+        return True
 
     @pytest.mark.parametrize("s, expected", [
         ("()", True),
