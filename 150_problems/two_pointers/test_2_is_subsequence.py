@@ -22,11 +22,11 @@ class TestIsSubsequence:
     def is_subsequence(self, s: str, t: str):
         sp = tp = 0
         while sp < len(s) and tp < len(t):
-            if s[sp] == t[tp]:
+            if t[tp] == s[sp]:
                 sp += 1
             tp += 1
 
-        return len(s) == sp
+        return sp == len(s)
 
     @pytest.mark.parametrize(
         "s, t, expected", [

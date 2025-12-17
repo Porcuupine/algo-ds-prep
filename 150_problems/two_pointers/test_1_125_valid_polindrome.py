@@ -33,15 +33,12 @@ class TestVilidPalindrome:
         # return cleaned == cleaned[::-1]
         # two pointers O(n) O(1) space:
         left, right = 0, len(s) - 1
-
         while left < right:
-            # skip non-alphanumeric
             while left < right and not s[left].isalnum():
                 left += 1
             while left < right and not s[right].isalnum():
                 right -= 1
 
-            # compare
             if s[left].lower() != s[right].lower():
                 return False
 

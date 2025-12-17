@@ -31,8 +31,7 @@ class TestTwoSumIIINputArrayIsSorted:
     The tests are generated such that there is exactly one solution."""
 
     def two_sum(self, nums: list[int], target: int):
-        left = 0
-        right = len(nums) - 1
+        left, right = 0, len(nums) - 1
         while left < right:
             total = nums[left] + nums[right]
             if total < target:

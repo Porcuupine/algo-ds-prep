@@ -20,17 +20,16 @@ class TestContainerWithTheMostWater:
     0 <= height[i] <= 104"""
 
     def container_with_the_most_water(self, height: list[int]) -> int:
-        left, right = 0, len(height) - 1
         maxArea = 0
-        for left in range(len(height)):
-            currArea = min(height[left], height[right]) * (right - left)
-            if currArea > maxArea:
-                maxArea = currArea
+        left, right = 0, len(height) - 1
+        while left < right:
+            currArea = min(height[right], height[left]) * (right - left)
+            maxArea = max(maxArea, currArea)
 
-            if height[left] < height[right]:
-                left += 1
-            else:
+            if height[left] > height[right]:
                 right -= 1
+            else:
+                left += 1
 
         return maxArea
 
