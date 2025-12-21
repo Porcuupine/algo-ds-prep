@@ -25,7 +25,7 @@ class TestMinWindowSubstring:
     s and t consist of uppercase and lowercase English letters.
     """
 
-    def min_window_bruteforce(self, s, t):
+    def min_window_bruteforce(self, s: str, t: str) -> str:
         from collections import Counter
         need = Counter(t)
         n = len(s)
@@ -38,7 +38,6 @@ class TestMinWindowSubstring:
                 if count[s[j]] > 0:
                     missing -= 1
                 count[s[j]] -= 1
-
                 if missing == 0:
                     window = s[i:j + 1]
                     if best == "" or len(window) < len(best):
