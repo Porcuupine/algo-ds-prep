@@ -51,16 +51,14 @@ class TestMinimumSizeSubarraySum:
         # sliding window O(n) time and O(1) space:
         curr_sum = 0
         left = 0
-        min_len = float('inf')
+        min_length = float('inf')
         for right in range(len(nums)):
             curr_sum += nums[right]
-
             while curr_sum >= target:
-                min_len = min(min_len, right - left + 1)
+                min_length = min(min_length, right - left + 1)
                 curr_sum -= nums[left]
                 left += 1
-
-        return min_len if min_len != float('inf') else 0
+        return min_length if min_length != float('inf') else 0
 
     @pytest.mark.parametrize(
         "nums, target, expected", [
