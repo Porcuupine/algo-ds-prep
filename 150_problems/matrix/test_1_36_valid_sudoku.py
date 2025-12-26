@@ -79,7 +79,7 @@ class TestValidSudoku:
              , ["7", ".", ".", ".", "2", ".", ".", ".", "6"]
              , [".", "6", ".", ".", ".", ".", "2", "8", "."]
              , [".", ".", ".", "4", "1", "9", ".", ".", "5"]
-             , [".", ".", ".", ".", "8", ".", ".", "7", "9"]], False),
+             , [".", ".", ".", ".", "8", ".", ".", "7", "9"]], False)
     ])
     def test_validate_sudoku(self, board, expected):
         assert self.validate_sudoku(board) == expected
