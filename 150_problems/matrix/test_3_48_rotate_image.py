@@ -29,17 +29,18 @@ class TestRotateImage:
     """
 
     def rotate_image(self, matrix: list[list[int]]) -> list[list[int]]:
-        top, bottom = 0, len(matrix) - 1
-        left, right = 0, len(matrix[0]) - 1
-        res = []
+        n = len(matrix)
 
-        while top <= bottom and left <= right:
-            # left column:
-            for r in range(bottom, top, -1):
-                res.append(matrix[r][left])
-            left += 1
+        # 1. Transpose
+        for i in range(n):
+            for j in range(i + 1, n):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
-        return res
+        # 2. Reverse each row
+        for row in matrix:
+            row.reverse()
+
+        return matrix
 
     @pytest.mark.parametrize("matrix, expected", [
         ([[1, 2, 3], [4, 5, 6], [7, 8, 9]], [[7, 4, 1], [8, 5, 2], [9, 6, 3]]),
