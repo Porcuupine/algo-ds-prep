@@ -39,7 +39,7 @@ class TestSetMatrixZeroes:
                 if matrix[i][0] == 0 or matrix[0][j] == 0:
                     matrix[i][j] = 0
 
-        # first row
+        # first raw
         if first_row_zero:
             for j in range(n):
                 matrix[0][j] = 0
@@ -51,6 +51,7 @@ class TestSetMatrixZeroes:
 
     @pytest.mark.parametrize("matrix, expected", [
         ([[1, 1, 1], [1, 0, 1], [1, 1, 1]], [[1, 0, 1], [0, 0, 0], [1, 0, 1]]),
+        ([[0, 1, 2, 0], [3, 4, 5, 2], [1, 3, 1, 5]], [[0, 0, 0, 0], [0, 4, 5, 0], [0, 3, 1, 0]])
     ])
     def test_set_zeroes(self, matrix, expected):
         s = TestSetMatrixZeroes()
