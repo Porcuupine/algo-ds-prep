@@ -34,9 +34,7 @@ class TestGameOfLife:
         m, n = len(board), len(board[0])
 
         directions = [
-            (-1, -1), (-1, 0), (-1, 1),
-            (0, -1), (0, 1),
-            (1, -1), (1, 0), (1, 1),
+            (-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1),
         ]
 
         def live_neighbors(r, c):
@@ -70,6 +68,7 @@ class TestGameOfLife:
 
     @pytest.mark.parametrize("board, expected", [
         ([[0, 1, 0], [0, 0, 1], [1, 1, 1], [0, 0, 0]], [[0, 0, 0], [1, 0, 1], [0, 1, 1], [0, 1, 0]]),
+        ([[1, 1], [1, 0]], [[1, 1], [1, 1]])
     ])
     def test_game_of_life(self, board, expected):
         s = TestGameOfLife()
