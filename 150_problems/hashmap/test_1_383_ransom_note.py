@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter, defaultdict
 
 import pytest
 
@@ -23,12 +23,25 @@ class TestRansomNote:
     """
 
     def ransom_note(self, ransomNote: str, magazine: str) -> bool:
-        ransom_count = Counter(ransomNote)
-        magazine_count = Counter(magazine)
+        # ransom_count = Counter(ransomNote)
+        # magazine_count = Counter(magazine)
+        #
+        # for char, count in ransom_count.items():
+        #     if magazine_count[char] < count:
+        #         return False
+        # return True
+        counts = defaultdict(int)
 
-        for char, count in ransom_count.items():
-            if magazine_count[char] < count:
+        # Count letters in magazine
+        for ch in magazine:
+            counts[ch] += 1
+
+        # Use letters for ransomNote
+        for ch in ransomNote:
+            if counts[ch] == 0:
                 return False
+            counts[ch] -= 1
+
         return True
 
     @pytest.mark.parametrize("ransom_note, magazine, expected",
