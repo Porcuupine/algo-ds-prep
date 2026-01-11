@@ -44,3 +44,11 @@ class TestIsomorphicStrings:
             t_to_s[ct] = cs
 
         return True
+
+    @pytest.mark.parametrize("s, t, expected", [
+        ("egg", "add", True),
+        ("foo", "bar", False),
+        ("paper", "title", True),
+    ])
+    def test_is_isomorohic(self, s, t, expected):
+        assert self.is_isomorphic(s, t) == expected
