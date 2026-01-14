@@ -1,3 +1,5 @@
+from collections import Counter
+
 import pytest
 
 
@@ -17,10 +19,11 @@ class TestValidAnagram:
     """
 
     def is_anagram(self, s: str, t: str) -> bool:
-        s_to_t = {}
-        t_to_s = {}
+        return Counter(s) == Counter(t)
 
-        if len(s) != len(t):
-            return False
-
-        for ch in s:
+    @pytest.mark.parametrize("s, t, expected", [
+        ("anagram", "nagaram", True),
+        ("rat", "car", False),
+    ])
+    def test_is_anagram(self, s, t, expected):
+        assert self.is_anagram(s, t) == expected
