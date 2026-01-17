@@ -25,11 +25,21 @@ class TestGroupAnagrams:
     strs[i] consists of lowercase English letters.
     """
 
-    def group_anagramgs(self, strs: list[str]) -> list[list[str]]:
+    def group_anagrags(self, strs: list[str]) -> list[list[str]]:
         groups = defaultdict(list)
 
         for s in strs:
             key = ''.join(sorted(s))
+
+            # if key not in groups:
+            #     groups[key] = []
+
             groups[key].append(s)
 
         return list(groups.values())
+
+    @pytest.mark.parametrize("strs, expected", [
+        (["eat", "tea", "tan", "ate", "nat", "bat"], [['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']]),
+    ])
+    def test_group_anagrams(self, strs, expected):
+        assert self.group_anagrags(strs) == expected
