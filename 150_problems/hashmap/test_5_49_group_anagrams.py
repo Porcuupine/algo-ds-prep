@@ -26,13 +26,13 @@ class TestGroupAnagrams:
     """
 
     def group_anagrags(self, strs: list[str]) -> list[list[str]]:
-        groups = defaultdict(list)
+        groups = {}
 
         for s in strs:
             key = ''.join(sorted(s))
 
-            # if key not in groups:
-            #     groups[key] = []
+            if key not in groups:
+                groups[key] = []
 
             groups[key].append(s)
 
