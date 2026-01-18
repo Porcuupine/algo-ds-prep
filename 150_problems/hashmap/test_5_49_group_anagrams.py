@@ -40,6 +40,8 @@ class TestGroupAnagrams:
 
     @pytest.mark.parametrize("strs, expected", [
         (["eat", "tea", "tan", "ate", "nat", "bat"], [['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']]),
+        ([""], [[""]]),
+        (["a"], [["a"]]),
     ])
     def test_group_anagrams(self, strs, expected):
         assert self.group_anagrags(strs) == expected
