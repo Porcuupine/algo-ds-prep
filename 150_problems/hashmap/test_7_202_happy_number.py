@@ -48,6 +48,7 @@ class TestHappyNumber:
 
     @pytest.mark.parametrize("n, expected", [
         (19, True),
+        (2, False),
     ])
     def test_happy_number(self, n, expected):
         assert self.happy_number(n) == expected
