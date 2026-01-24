@@ -19,10 +19,18 @@ class TestContainDuplicate:
     0 <= k <= 105
     """
 
-    def containsNearbyDuplicate(self, nums: list[int], k: int) -> bool:
+    def contains_narby_duplicate(self, nums: list[int], k: int) -> bool:
         last_seen = {}
         for i, num in enumerate(nums):
             if num in last_seen and i - last_seen[num] <= k:
                 return True
             last_seen[num] = i
         return False
+
+    @pytest.mark.parametrize("nums, k, expected", [
+        ([1, 2, 3, 1], 3, True),
+        ([1, 0, 1, 1], 1, True),
+        ([1, 2, 3, 1, 2, 3], 2, False)
+    ])
+    def test_contains_nearby_duplicate(self, nums, k, expected):
+        assert self.contains_narby_duplicate(nums, k) == expected
