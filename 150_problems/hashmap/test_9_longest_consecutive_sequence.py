@@ -21,6 +21,7 @@ class TestLongestConsecutive_sequence:
     """
 
     def longest_consecutive_sequence(self, nums: list[int]) -> int:
+
         num_set = set(nums)
         longest = 0
 
@@ -37,3 +38,11 @@ class TestLongestConsecutive_sequence:
                 longest = max(longest, length)
 
         return longest
+
+    @pytest.mark.parametrize("nums, expected", [
+        ([100, 4, 200, 1, 3, 2], 4),
+        ([0, 3, 7, 2, 5, 8, 4, 6, 0, 1], 9),
+        ([1, 0, 1, 2], 3),
+    ])
+    def test_longest_consecutive_sequence(self, nums, expected):
+        assert self.longest_consecutive_sequence(nums) == expected
