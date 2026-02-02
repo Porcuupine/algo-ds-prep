@@ -14,6 +14,7 @@ class TestInsertIntervals:
     Input: intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
     Output: [[1,2],[3,10],[12,16]]
     Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
+
     Constraints:
     0 <= intervals.length <= 104
     intervals[i].length == 2
@@ -23,27 +24,33 @@ class TestInsertIntervals:
     0 <= start <= end <= 105
     """
 
-    def test_insert(self, intervals: list[list[int]], new_interval: list[int]) -> list[list[int]]:
+    def insert(self, intervals: list[list[int]], new_interval: list[int]) -> list[list[int]]:
         result = []
         i = 0
         n = len(intervals)
 
-        # 1. before new_interval
+        # 1. before new_interval:
         while i < n and intervals[i][1] < new_interval[0]:
             result.append(intervals[i])
             i += 1
 
-        # 2. overlapping intervals
+        # 2. overlapping intervals:
         while i < n and intervals[i][0] <= new_interval[1]:
             new_interval[0] = min(new_interval[0], intervals[i][0])
             new_interval[1] = max(new_interval[1], intervals[i][1])
             i += 1
-
         result.append(new_interval)
 
-        # 3. after new_interval
+        # 3. after intervals:
         while i < n:
             result.append(intervals[i])
             i += 1
 
         return result
+
+    @pytest.mark.parametrize("intervals, new_interval, expected", [
+        ([[1, 3], [6, 9]], [2, 5], [[1, 5], [6, 9]]),
+        ([[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]], [4, 8], [[1, 2], [3, 10], [12, 16]]),
+    ])
+    def test_insert(self, intervals, new_interval, expected):
+        assert self.insert(intervals, new_interval) == expected
