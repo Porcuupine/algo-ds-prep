@@ -1,9 +1,30 @@
 import pytest
 
+
 class ListNode:
     def __init__(self, x=0):
-        self.val= x
-        self.next =
+        self.val = x
+        self.next = None
+
+
+def build_linked_list(values, pos):
+    if not values:
+        return None
+
+    nodes = [ListNode(v) for v in values]
+    for i in range(len(nodes) - 1):
+        nodes[i].next = nodes[i + 1]
+
+    if pos != -1:
+        nodes[-1].next = pos
+
+    return nodes[0]
+
+
+class Solution:
+    def add_two_numbers(self, l1: list[int], l2: list[int]):
+        pass
+
 
 class TestAddTwoNumbers:
     """
