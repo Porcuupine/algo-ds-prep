@@ -1,32 +1,10 @@
-import pytest
-
-
 class ListNode:
-    def __init__(self, x=0):
-        self.val = x
-        self.next = None
-
-
-def build_linked_list(values, pos):
-    if not values:
-        return None
-
-    nodes = [ListNode(v) for v in values]
-    for i in range(len(nodes) - 1):
-        nodes[i].next = nodes[i + 1]
-
-    if pos != -1:
-        nodes[-1].next = pos
-
-    return nodes[0]
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
 
 class Solution:
-    def add_two_numbers(self, l1: list[int], l2: list[int]):
-        pass
-
-
-class TestAddTwoNumbers:
     """
     You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
     You may assume the two numbers do not contain any leading zero, except the number 0 itself.
@@ -46,13 +24,60 @@ class TestAddTwoNumbers:
     It is guaranteed that the list represents a number that does not have leading zeros.
     """
 
-    def add_two_numbers(self, l1: list[int], l2: list[int]):
-        pass
+    def addTwoNumbers(
+        self,
+        l1: ListNode | None,
+        l2: ListNode | None
+    ) -> ListNode | None:
+        dummy = ListNode(0)
+        curr = dummy
+        carry = 0
+        while l1 or l2 or carry:
+            v1 = l1.val if l1 else 0
+            v2 = l2.val if l2 else 0
+            total = v1 + v2 + carry
+            carry = total // 10
+            curr.next = ListNode(total % 10)
+            curr = curr.next
+            if l1:
+                l1 = l1.next
+            if l2:
+                l2 = l2.next
+        return dummy.next
 
-    @pytest.mark.parametrize("l1, l2, expected", [
-        ([2, 4, 3], [5, 6, 4], [7, 0, 8]),
-        ([0], [0], [0]),
-        ([9, 9, 9, 9, 9, 9, 9], [9, 9, 9, 9], [8, 9, 9, 9, 0, 0, 0, 1]),
-    ])
+
+def build_list(nums):
+    dummy = ListNode(0)
+    curr = dummy
+    for n in nums:
+        curr.next = ListNode(n)
+        curr = curr.next
+    return dummy.next
+
+
+def list_to_array(head):
+    result = []
+    while head:
+        result.append(head.val)
+        head = head.next
+    return result
+
+
+import pytest
+
+
+class Test_AddTwoNumbers:
+    @pytest.mark.parametrize(
+        "l1, l2, expected",
+        [
+            ([2, 4, 3], [5, 6, 4], [7, 0, 8]),
+            ([0], [0], [0]),
+            ([9, 9, 9, 9, 9, 9, 9], [9, 9, 9, 9], [8, 9, 9, 9, 0, 0, 0, 1]),
+            ([1, 8], [0], [1, 8]),
+        ],
+    )
     def test_add_two_numbers(self, l1, l2, expected):
-        pass
+        head1 = build_list(l1)
+        head2 = build_list(l2)
+        result = Solution().addTwoNumbers(head1, head2)
+        assert list_to_array(result) == expected
