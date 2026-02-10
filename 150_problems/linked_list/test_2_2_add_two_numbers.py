@@ -24,6 +24,7 @@ class Solution:
     It is guaranteed that the list represents a number that does not have leading zeros.
     """
 
+
     def addTwoNumbers(
         self,
         l1: ListNode | None,
