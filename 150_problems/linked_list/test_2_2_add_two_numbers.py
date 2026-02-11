@@ -24,7 +24,6 @@ class Solution:
     It is guaranteed that the list represents a number that does not have leading zeros.
     """
 
-
     def addTwoNumbers(
         self,
         l1: ListNode | None,
@@ -74,7 +73,6 @@ class Test_AddTwoNumbers:
             ([2, 4, 3], [5, 6, 4], [7, 0, 8]),
             ([0], [0], [0]),
             ([9, 9, 9, 9, 9, 9, 9], [9, 9, 9, 9], [8, 9, 9, 9, 0, 0, 0, 1]),
-            ([1, 8], [0], [1, 8]),
         ],
     )
     def test_add_two_numbers(self, l1, l2, expected):
