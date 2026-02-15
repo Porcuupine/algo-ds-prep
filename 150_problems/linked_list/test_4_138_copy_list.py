@@ -34,36 +34,76 @@ class Solution:
     Node.random is null or is pointing to some node in the linked list.
     """
 
-    def copy_list(self, head: ListNode | None) -> ListNode:
-        return head
+    def copy_random_list(self, head: ListNode | None) -> ListNode:
+        if not head:
+            return None
+
+        old_to_new = {}
+
+        # 1️⃣ Create all nodes
+        curr = head
+        while curr:
+            old_to_new[curr] = ListNode(curr.val)
+            curr = curr.next
+
+        # 2️⃣ Connect next and random
+        curr = head
+        while curr:
+            copy = old_to_new[curr]
+            copy.next = old_to_new.get(curr.next)
+            copy.random = old_to_new.get(curr.random)
+            curr = curr.next
+
+        return old_to_new[head]
 
 
-def build_linked_list(arr: list[list[int] | None]):
-    dummy = ListNode(arr[0][0])
-    curr = dummy
-    for n in arr[1:]:
-        curr.next = ListNode(n[0])
-        curr.random = n[1]
-        curr.val = n[0]
+def build_random_list(values):
+    """
+    values: list of tuples (val, random_index or None)
+    """
+    if not values:
+        return None
+
+    nodes = [ListNode(v) for v, _ in values]
+
+    for i in range(len(nodes) - 1):
+        nodes[i].next = nodes[i + 1]
+
+    for i, (_, rand_i) in enumerate(values):
+        if rand_i is not None:
+            nodes[i].random = nodes[rand_i]
+
+    return nodes[0]
+
+
+def serialize(head: ListNode):
+    nodes = []
+    idx_map = {}
+
+    curr = head
+    i = 0
+    while curr:
+        idx_map[curr] = i
+        nodes.append(curr)
         curr = curr.next
-    return dummy
+        i += 1
 
-
-def linked_list_to_array(head: ListNode | None) -> list[list[int] | None]:
     result = []
-    while head:
-        chain = [head.val, head.random]
-        result.append(chain)
-        head = head.next
+    for node in nodes:
+        rand_index = idx_map[node.random] if node.random else None
+        result.append([node.val, rand_index])
+
     return result
 
 
-@pytest.mark.parametrize("nums, expected", [
+@pytest.mark.parametrize("values, expected", [
     ([[7, None], [13, 0], [11, 4], [10, 2], [1, 0]], [[7, None], [13, 0], [11, 4], [10, 2], [1, 0]]),
-    # ([[7, None], [13, 0], [11, 4], [10, 2], [1, 0]], [[0, None]]),
+    ([[1, 1], [2, 1]], [[1, 1], [2, 1]]),
+    ([[3, None], [3, 0], [3, None]], [[3, None], [3, 0], [3, None]]),
 
 ])
-def test_copy_list(nums, expected):
-    head = build_linked_list(nums)
-    result = Solution().copy_list(head)
-    assert linked_list_to_array(result) == expected
+def test_copy_list(values, expected):
+    head = build_random_list(values)
+    copied = Solution().copy_random_list(head)
+
+    assert serialize(copied) == values
