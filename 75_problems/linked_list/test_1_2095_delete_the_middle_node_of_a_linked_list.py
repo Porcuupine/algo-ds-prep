@@ -3,6 +3,30 @@ from typing import Optional
 import pytest
 
 
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def build_linked_list(nums: list[int]) -> ListNode:
+    dummy = ListNode(nums[0])
+    curr = dummy
+    for n in nums[1:]:
+        curr.next = ListNode(n)
+        curr = curr.next
+    return dummy
+
+
+def linked_list_to_list(head: ListNode | None) -> list[int]:
+    result = []
+    while head:
+        result.append(head.val)
+        head = head.next
+
+    return result
+
+
 class TestDeleteTheMiddleNodeOfALinkedList:
     """
     You are given the head of a linked list. Delete the middle node, and return the head of the modified linked list.
@@ -36,27 +60,31 @@ class TestDeleteTheMiddleNodeOfALinkedList:
 
     from typing import Optional
 
-    class ListNode:
-        def __init__(self, val=0, next=None):
-            self.val = val
-            self.next = next
+    def delete_middle(self, head: ListNode | None) -> ListNode | None:
+        # edge case: single node -> return None
+        if not head or not head.next:
+            return None
 
-    class Solution:
-        def deleteMiddle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-            # edge case: single node -> return None
-            if not head or not head.next:
-                return None
+        slow = head
+        fast = head
+        prev = None
 
-            slow = head
-            fast = head
-            prev = None
+        # Move fast by 2 and slow by 1
+        while fast and fast.next:
+            prev = slow
+            slow = slow.next
+            fast = fast.next.next
 
-            # Move fast by 2 and slow by 1
-            while fast and fast.next:
-                prev = slow
-                slow = slow.next
-                fast = fast.next.next
+        # 'slow' is at the middle, 'prev' is just before it
+        prev.next = slow.next
+        return head
 
-            # 'slow' is at the middle, 'prev' is just before it
-            prev.next = slow.next
-            return head
+
+@pytest.mark.parametrize("values, expected", [
+    ([1, 3, 4, 7, 1, 2, 6], [1, 3, 4, 1, 2, 6]),
+
+])
+def test_delete_middle(values, expected):
+    head = build_linked_list(values)
+    result = TestDeleteTheMiddleNodeOfALinkedList().delete_middle(head)
+    assert linked_list_to_list(result) == expected
