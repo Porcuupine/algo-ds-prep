@@ -12,10 +12,10 @@ class ListNode:
 def build_linked_list(nums: list[int]) -> ListNode:
     dummy = ListNode(nums[0])
     curr = dummy
-    for n in nums[1:]:
+    for n in nums:
         curr.next = ListNode(n)
         curr = curr.next
-    return dummy
+    return dummy.next
 
 
 def linked_list_to_list(head: ListNode | None) -> list[int]:
