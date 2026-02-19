@@ -2,7 +2,7 @@ import pytest
 
 
 class ListNode:
-    def __init__(self, val=0, next=next)
+    def __init__(self, val=0, next=next):
         self.val = val
         self.next = next
 
@@ -40,7 +40,15 @@ class Solution:
     Follow up: Could you do it in one pass?"""
 
     def reverse_linked_list(self, head: ListNode | None, left: int, right: int):
-        pass
+        while left < right:
+            head[left], head[right] = head[right], head[left]
+
+            left += 1
+            right -= 1
+
+        return head
+
+
 
 
 @pytest.mark.parametrize("values, left, right, expected", [
