@@ -46,13 +46,29 @@ class Solution:
     """
 
     def remove_nth_node(self, head: ListNode | None, n: int) -> ListNode:
-        return ListNode()
+        dummy_head = ListNode(0, head)
+        fast = slow = dummy_head
+
+        # move fast n steps ahead
+        for _ in range(n):
+            fast = fast.next
+
+        # move both until fast is at the last node
+        while fast.next:
+            fast = fast.next
+            slow = slow.next
+
+        # delete node
+        node_to_delete = slow.next
+        slow.next = node_to_delete.next
+
+        return dummy_head.next
 
 
 @pytest.mark.parametrize("arr, n, expected", [
-    # ([1, 2, 3, 4, 5], 2, [1, 2, 3, 5]),
-    ([1], 1, [0]),
-    # ([1, 2], 1, [1]),
+    ([1, 2, 3, 4, 5], 2, [1, 2, 3, 5]),
+    ([1], 1, []),
+    ([1, 2], 1, [1]),
 ])
 def test_remove_nth_node(arr, n, expected):
     head = build_linked_list(arr)
