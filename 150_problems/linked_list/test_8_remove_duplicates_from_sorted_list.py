@@ -53,3 +53,13 @@ class Solution:
                 prev = curr
                 curr = curr.next
         return dummy.next
+
+
+@pytest.mark.parametrize("arr, expected", [
+    ([1, 2, 3, 3, 4, 4, 5], [1, 2, 5]),
+    ([1, 1, 1, 2, 3], [2, 3]),
+])
+def test_remove_duplicate(arr, expected):
+    head = build_linked_list(arr)
+    result = Solution().remove_duplicates(head)
+    assert linked_list_to_list(result) == expected
