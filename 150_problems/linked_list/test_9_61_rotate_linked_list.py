@@ -41,8 +41,33 @@ class Solution:
     0 <= k <= 2 * 109
     """
 
-    def rotate_linked_list(self, head: ListNode) -> ListNode:
-        return head
+    def rotate_linked_list(self, head: ListNode, k: int) -> ListNode:
+        # 1. find length and last node:
+        length = 1
+        tail = head
+        while tail.next:
+            tail = tail.next
+            length += 1
+
+        # 2. reduce k:
+        k %= length
+        if k == 0:
+            return head
+
+        # 3. make circular
+        tail.next = head
+
+        # 4. find new tail (length - k - 1 steps)
+        steps_to_new_tail = length - k
+        new_tail = head
+        for _ in range(steps_to_new_tail - 1):
+            new_tail = new_tail.next
+
+        # 5. break circle
+        new_head = new_tail.next
+        new_tail.next = None
+
+        return new_head
 
 
 @pytest.mark.parametrize("arr, k, expected", [
@@ -51,5 +76,5 @@ class Solution:
 ])
 def test_rotate_linked_list(arr, k, expected):
     head = build_linked_list(arr)
-    result = Solution().rotate_linked_list(head)
+    result = Solution().rotate_linked_list(head, k)
     assert linked_list_to_list(result) == expected
