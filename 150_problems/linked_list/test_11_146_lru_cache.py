@@ -2,26 +2,11 @@ import pytest
 
 
 class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-
-
-def build_linked_list(arr: list[int]) -> ListNode:
-    dummy = ListNode()
-    curr = dummy
-    for v in arr:
-        curr.next = ListNode(v)
-        curr = curr.next
-    return dummy.next
-
-
-def linked_list_to_list(head: ListNode) -> list[int]:
-    result = []
-    while head:
-        result.append(head.val)
-        head = head.next
-    return result
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+        self.prev = None
+        self.next = None
 
 
 class LRUCache:
@@ -57,7 +42,65 @@ class LRUCache:
     """
 
     def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cache = {}
 
-    def get(self, key: int) -> int:
+        # dummy boundaries
+        self.most_recent = ListNode(0, 0)
+        self.least_recent = ListNode(0, 0)
+
+        self.most_recent.next = self.least_recent
+        self.least_recent.prev = self.most_recent
+
+    # remove node from linked list
+    def _remove(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+
+        # insert node rigth after most_recent
+
+    def _insert_at_front(self, node):
+        node.next = self.most_recent.next
+        node.prev = self.most_recent
+        self.most_recent.next.prev = node
+        self.most_recent.next = node
+
+    def get(self, key: int):
+        if key not in self.cache:
+            return -1
+        node = self.cache[key]
+
+        # move to front
+        self._remove(node)
+        self._insert_at_front(node)
+
+        return node.value
 
     def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            self._remove(self.cache[key])
+        node = ListNode(key, value)
+        self.cache[key] = node
+        self._insert_at_front(node)
+        if len(self.cache) > self.capacity:
+            # remove least recently used (before dummy tail)
+            lru = self.least_recent.prev
+            self._remove(lru)
+            del self.cache[lru.key]
+
+
+def build_linked_list(arr: list[int]) -> ListNode:
+    dummy = ListNode()
+    curr = dummy
+    for v in arr:
+        curr.next = ListNode(v)
+        curr = curr.next
+    return dummy.next
+
+
+def linked_list_to_list(head: ListNode) -> list[int]:
+    result = []
+    while head:
+        result.append(head.val)
+        head = head.next
+    return result
