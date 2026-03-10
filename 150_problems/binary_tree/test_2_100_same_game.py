@@ -43,28 +43,22 @@ class Solution:
 
 
 def build_tree(values):
+    """Build a binary tree from level-order values (None = missing)."""
     if not values:
         return None
-    nodes = [
-        None if v is None else TreeNode(v)
-        for v in values
-    ]
-    for i in range(len(values)):
-        if nodes[i] is None:
-            continue
-
-    left = 2 * i + 1
-    right = 2 * i + 2
-
-    if left < len(values):
-        nodes[i].left = nodes[left]
-    if right < len(values):
-        nodes[i].right = nodes[right]
-
-    return nodes[0]
+    nodes = [TreeNode(v) if v is not None else None for v in values]
+    kids = nodes[::-1]
+    root = kids.pop()
+    for node in nodes:
+        if node:
+            if kids: node.left = kids.pop()
+            if kids: node.right = kids.pop()
+    return root
 
 
-@pytest.mark.parametrize("p, q, expected")
+@pytest.mark.parametrize("p, q, expected", [
+    ([1,2,3], [1,2,3], True),
+])
 def test_is_same_tree(p, q, expected):
     tree1 = build_tree(p)
     tree2 = build_tree(q)

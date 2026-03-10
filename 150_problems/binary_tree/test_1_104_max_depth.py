@@ -50,6 +50,7 @@ class TestMaxDepth:
 
     @pytest.mark.parametrize("root, expected", [
         ([3, 9, 20, None, None, 15, 7], 3),
+        ([1, None, 2], 2),
     ])
     def test_max_depth(self, tree, expected):
         root = build_tree(tree)
