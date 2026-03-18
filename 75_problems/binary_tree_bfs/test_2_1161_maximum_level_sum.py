@@ -43,7 +43,7 @@ class TestMaximumLevelSum:
     -105 <= Node.val <= 105
     """
 
-    def maximum_level_sum(self, root: list[int | None]) -> int:
+    def maximum_level_sum(self, root: TreeNode | None) -> int:
         if not root:
             return 0
 
