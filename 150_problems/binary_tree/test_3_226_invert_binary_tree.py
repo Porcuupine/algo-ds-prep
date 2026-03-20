@@ -14,13 +14,28 @@ def built_tree(values: list[int] | None):
     if not values:
         return None
     nodes = [TreeNode(v) if v is not None else None for v in values]
-    kids = nodes[::-1]
-    root = kids.pop()
-    for node in nodes:
-        if node:
-            if kids: node.left = kids.pop()
-            if kids: node.right = kids.pop()
-        return root
+
+    for i in range(len(values)):
+        if nodes[i] is None:
+            continue
+        left = 2 * i + 1
+        right = 2 * i + 2
+
+        if left < len(values):
+            nodes[i].left = nodes[left]
+
+        if right < len(values):
+            nodes[i].right = nodes[right]
+
+    return nodes[0]
+
+    # kids = nodes[::-1]
+    # root = kids.pop()
+    # for node in nodes:
+    #     if node:
+    #         if kids: node.left = kids.pop()
+    #         if kids: node.right = kids.pop()
+    #     return root
 
 
 def tree_list_to_list(root: TreeNode | None) -> list[int]:
