@@ -45,3 +45,6 @@ def tree_list_to_list(root: TreeNode | None) -> list[int] | None:
         result.pop()
 
     return result
+
+class Solution:
+    def is_symmetric(self):
