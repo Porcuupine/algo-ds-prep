@@ -23,7 +23,7 @@ def build_tree(values: list[int] | None) -> TreeNode:
             nodes[i].left = nodes[left]
         if right < len(values):
             nodes[i].right = nodes[right]
-        return nodes[0]
+    return nodes[0]
 
 
 def tree_list_to_list(root: TreeNode | None) -> list[int] | None:

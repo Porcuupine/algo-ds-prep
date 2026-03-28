@@ -1,0 +1,62 @@
+from collections import deque
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+def build_tree(values: list[int] | None) -> TreeNode | None:
+    if not values:
+        return None
+    nodes = [None if v is None else TreeNode(v) for v in values]
+    for i in range(len(values)):
+        if nodes[i] is None:
+            continue
+        left = 2 * i + 1
+        right = 2 * i + 2
+        if left < len(values):
+            nodes[i].left = nodes[left]
+        if right < len(values):
+            nodes[i].right = nodes[right]
+    return nodes[0]
+
+
+def tree_list_to_tree(root: TreeNode | None) -> list[int]:
+    if not root:
+        return []
+    result = []
+    queue = deque([root])
+    while queue:
+        node = queue.popleft()
+        if node:
+            result.append(node.val)
+            result.append(node.left)
+            result.append(node.right)
+        else:
+            result.append(None)
+    while result and result[-1] is None:
+        result.pop()
+    return result
+
+
+class Solution:
+    """
+    Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+    Example 1:
+    Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+    Output: [3,9,20,null,null,15,7]
+    Example 2:
+    Input: preorder = [-1], inorder = [-1]
+    Output: [-1]
+    Constraints:
+    1 <= preorder.length <= 3000
+    inorder.length == preorder.length
+    -3000 <= preorder[i], inorder[i] <= 3000
+    preorder and inorder consist of unique values.
+    Each value of inorder also appears in preorder.
+    preorder is guaranteed to be the preorder traversal of the tree.
+    inorder is guaranteed to be the inorder traversal of the tree.
+    """
