@@ -60,3 +60,22 @@ class Solution:
     preorder is guaranteed to be the preorder traversal of the tree.
     inorder is guaranteed to be the inorder traversal of the tree.
     """
+
+    def build_tree(self, preorder: list[int], inorder: list[int]):
+        index_map = {val: i for i, val in enumerate(inorder)}
+        preorder_index = 0
+
+        def build(left, right):
+            nonlocal preorder_index
+            if left > right:
+                return None
+            root_val = preorder[preorder_index]
+            preorder_index += 1
+            root = TreeNode(root_val)
+            mid = index_map[root_val]
+            root.left = build(left, mid - 1)
+            root.right = build(mid + 1, right)
+            return root
+
+        return build(0, len(inorder) - 1)
+    
