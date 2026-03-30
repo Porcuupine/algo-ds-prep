@@ -1,27 +1,13 @@
 from collections import deque
 
+import pytest
+
 
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
         self.left = left
         self.right = right
-
-
-def build_tree(values: list[int] | None) -> TreeNode | None:
-    if not values:
-        return None
-    nodes = [None if v is None else TreeNode(v) for v in values]
-    for i in range(len(values)):
-        if nodes[i] is None:
-            continue
-        left = 2 * i + 1
-        right = 2 * i + 2
-        if left < len(values):
-            nodes[i].left = nodes[left]
-        if right < len(values):
-            nodes[i].right = nodes[right]
-    return nodes[0]
 
 
 def tree_list_to_tree(root: TreeNode | None) -> list[int]:
@@ -33,8 +19,8 @@ def tree_list_to_tree(root: TreeNode | None) -> list[int]:
         node = queue.popleft()
         if node:
             result.append(node.val)
-            result.append(node.left)
-            result.append(node.right)
+            queue.append(node.left)
+            queue.append(node.right)
         else:
             result.append(None)
     while result and result[-1] is None:
@@ -61,7 +47,7 @@ class Solution:
     inorder is guaranteed to be the inorder traversal of the tree.
     """
 
-    def build_tree(self, preorder: list[int], inorder: list[int]):
+    def build_tree(self, preorder: list[int], inorder: list[int]) -> TreeNode:
         index_map = {val: i for i, val in enumerate(inorder)}
         preorder_index = 0
 
@@ -78,4 +64,12 @@ class Solution:
             return root
 
         return build(0, len(inorder) - 1)
-    
+
+
+@pytest.mark.parametrize("preorder, inorder, expected", [
+    ([3, 9, 20, 15, 7], [9, 3, 15, 20, 7], [3, 9, 20, None, None, 15, 7]),
+    ([-1], [-1], [-1]),
+])
+def test_build_tree(preorder, inorder, expected):
+    root = Solution().build_tree(preorder, inorder)
+    assert tree_list_to_tree(root) == expected
