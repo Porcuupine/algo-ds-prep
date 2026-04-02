@@ -1,5 +1,7 @@
 from collections import deque
 
+import pytest
+
 
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -69,3 +71,12 @@ class Solution:
             return root
 
         return build(0, len(inorder) - 1)
+
+
+@pytest.mark.parametrize("inorder, postorder, expected", [
+    ([9, 3, 15, 20, 7], [9, 15, 7, 20, 3], [3, 9, 20, None, None, 15, 7]),
+    ([-1], [-1], [-1]),
+])
+def test_build_tree(inorder, postorder, expected):
+    root = Solution().build_tree(inorder, postorder)
+    assert tree_list_to_tree(root) == expected
