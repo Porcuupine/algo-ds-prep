@@ -1,3 +1,6 @@
+import pytest
+
+
 class Node:
     def __init__(self, val=0, left=None, right=None, next=None):
         self.val = val
@@ -35,15 +38,19 @@ class Solution:
     def populate(self, root: Node | None) -> Node | None:
         if not root:
             return None
-        current = root
 
+        current = root
         while current:
             dummy = Node(0)
             tail = dummy
 
+            # iterate current level
             while current:
                 if current.left:
                     tail.next = current.left
+                    tail = tail.next
+                if current.right:
+                    tail.next = current.right
                     tail = tail.next
                 current = current.next
 
@@ -55,10 +62,13 @@ class Solution:
 def build_tree(values):
     if not values:
         return None
+
     nodes = [None if v is None else Node(v) for v in values]
+
     for i in range(len(values)):
         if nodes[i] is None:
             continue
+
         left = 2 * i + 1
         right = 2 * i + 2
 
@@ -66,4 +76,37 @@ def build_tree(values):
             nodes[i].left = nodes[left]
         if right < len(values):
             nodes[i].right = nodes[right]
+
     return nodes[0]
+
+
+def tree_levels_with_root(root: Node):
+    """Return list of lists of node values at each level using .next pointers"""
+    result = []
+    while root:
+        level = []
+        current = root
+        next_level_start = None
+
+        while current:
+            level.append(current.val)
+            if not next_level_start:
+                next_level_start = current.left or current.right
+            current = current.next
+
+        result.append(level)
+        root = next_level_start
+
+    return result
+
+
+@pytest.mark.parametrize("values, expected", [
+    ([1, 2, 3, 4, 5, None, 7], [[1], [2, 3], [4, 5, 7]]),
+    ([1, 2, 3, 4, None, None, 5], [[1], [2, 3], [4, 5]]),
+    ([], []),
+    ([1], [[1]]),
+])
+def test_populate(values, expected):
+    root = build_tree(values)
+    Solution().populate(root)
+    assert tree_levels_with_root(root) == expected
